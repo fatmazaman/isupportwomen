@@ -1,0 +1,2 @@
+module EmpowersHelper
+end

@@ -1,0 +1,33 @@
+!!! 5
+%html
+%head
+  %title ISupportWomen
+  = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+  = javascript_include_tag 'application', 'data-turbolinks-track' => true
+  = csrf_meta_tags
+
+%body
+  %nav.navbar.navbar-default
+    .container
+      = link_to "About Us", home_index_path, class: "btn btn-default btn-sm"
+      = link_to "Talk to Us", home_contact_path, class: "btn btn-default btn-sm"
+
+      =link_to "Skills For You", empowers_path, class: "btn btn-info btn-sm"
+      - if user_signed_in?
+        .nav.navbar-nav.navbar-right
+          = link_to "Add New Skills", new_empower_path, class: "btn btn-success btn-sm"
+          = link_to 'Settings', edit_user_registration_path, class: "btn btn-warning btn-sm"
+          = link_to "Sign Out", destroy_user_session_path, method: :delete, class: "btn btn-danger btn-sm"
+      - else
+        .nav.navbar-nav.navbar-right
+          = link_to "Sign Up", new_user_registration_path, class: "btn btn-default btn-sm"
+          = link_to "Sign In", new_user_session_path, class: "btn btn-default btn-sm"
+
+
+  .container
+    - flash.each do |name, msg|
+      =content_tag :div, msg, class: "alert"
+      
+    = yield
+
+  

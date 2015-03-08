@@ -1,0 +1,28 @@
+- @empower.each_slice(3) do |empowers|
+  .row
+    - empowers.each do |empower|
+      .col-md-4
+        .recipe
+          .image_wrapper
+            = link_to empower do
+              = image_tag empower.image.url(:medium)
+          %h2= link_to empower.category, empower
+          %p= empower.title
+          
+          
+          .btn-group
+            = link_to like_empower_path(empower), method: :put, class: "btn btn-default btn-sm" do 
+              %span.glyphicon.glyphicon-chevron-up
+                Upvote
+                = empower.get_upvotes.size
+              
+            = link_to dislike_empower_path(empower), method: :put, class: "btn btn-default btn-sm" do
+              %span.glyphicon.glyphicon-chevron-down
+                Downvote
+                = empower.get_downvotes.size 
+              
+          %p.pull-right
+            %small
+              Submitted by
+              %strong            
+                = empower.user.name

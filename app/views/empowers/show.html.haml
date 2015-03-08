@@ -1,0 +1,61 @@
+%span
+  = link_to " Back", empowers_path, class: "btn btn-primary btn-sm glyphicon glyphicon-arrow-left"
+.main-content
+  #recipe_top.row
+    .col-md-4
+      = image_tag @empower.image.url(:medium), class: "recipe_image"
+    .col-md-8
+      #recipe_info
+        %h1= @empower.title
+        %p.description= @empower.description
+        %p
+          Submitted by
+          = @empower.user.name
+      .btn-group
+        = link_to like_empower_path(@empower), method: :put, class: "btn btn-success btn-sm" do
+          %span.glyphicon.glyphicon-chevron-up
+            Upvote
+            = @empower.get_upvotes.size
+        = link_to dislike_empower_path(@empower), method: :put, class: "btn btn-danger btn-sm" do
+          %span.glyphicon.glyphicon-chevron-down
+            Downvote
+            = @empower.get_downvotes.size
+
+      .pull-right
+        - if user_signed_in?
+          = link_to "Edit-Me", edit_empower_path, class: "btn btn-warning btn-sm glyphicon"
+          = link_to "Delete", empower_path, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-danger btn-sm glyphicon"
+
+  .row
+    .col-md-6
+      #ingredients
+        %h2 Paths
+        %ul
+          - @empower.paths.each do |path|
+            %li=  simple_format(path.name)
+
+    .col-md-6
+      #directions
+        %h2 Notes
+        %ul
+          - @empower.notes.each do |note|
+            %li= note.step
+
+  .row
+    .col-md-6
+      %h3.comments_title
+        = @empower.comments.count 
+        Comments
+
+      #comments
+        = render :partial => @empower.comments
+
+      = simple_form_for [@empower, Comment.new] do |f|
+        .field
+          = f.text_area :body, class: "form-control", required: true
+          %br/
+        = f.submit "Add Comment", class: "btn btn-primary"
+  .row
+    .col-md-offset-5
+      %h3
+        iSupportWomen
